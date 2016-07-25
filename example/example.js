@@ -1,6 +1,7 @@
 var ReactDOM = require('react-dom')
 var App = require('../app/App.js')
 import request from 'superagent/lib/client';
+import fakeIceSequenceData from './fakeIceSequenceData'
 
 var query = location.search;
 var cookie = document.cookie;
@@ -15,22 +16,22 @@ request
     .set('X-ICE-Authentication-sessionId', sid)
     .accept('application/json')
     .end(function(err, result) {
-        console.log(result)
-        if (result.body === null){
-            // fill with default values for a blank sequence
-            contents = {
-                "sequence" : "",
-                "name" : "null",
-                "isCircular" : true,
-                "canEdit" : true,
-                "seqId" : id,
-                "features" : []
-            }
+        debugger
+        if (!contents) {
+          //use an example ice response
+          contents = fakeIceSequenceData
+            // contents = {
+            //         "sequence" : "",
+            //         "name" : "null",
+            //         "isCircular" : true,
+            //         "canEdit" : true,
+            //         "seqId" : id,
+            //         "features" : []
+            //     }
+        } else {
+            var contents = result.body
         }
-        else {
-            var contents = result.body;
-        }
-        console.log(contents)
+
         var sequence = contents.sequence;
         var name = contents.name;
         var isCircular = contents.isCircular;
@@ -91,11 +92,11 @@ request
                     features: featureList,
                     _id: seqId,
                     sequence: sequence,
-                    circular: isCircular
+                    circular: isCircular,
+                    name: name
                 },
-                embedded: !!embedded, // forcing a Boolean
-                readOnly: !canEdit, // forced falsed Boolean
-                name: name,
+                embedded: true, // forcing a Boolean
+                // readOnly: !canEdit // forced falsed Boolean
             },
             services: {
                 request: request
