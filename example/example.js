@@ -16,11 +16,21 @@ request
     .set('X-ICE-Authentication-sessionId', sid)
     .accept('application/json')
     .end(function(err, result) {
-        var contents = result.body;
-        if (!contents) {
-          //use an example ice response
-          contents = fakeIceSequenceData
+        if (!result.body) {
+            //use an example ice response
+            // contents = fakeIceSequenceData
+            contents = {
+                "sequence" : "",
+                "name" : "blank",
+                "isCircular" : true,
+                "canEdit" : true,
+                "seqId" : id,
+                "features" : []
+                }
+        } else {
+            var contents = result.body
         }
+
         var sequence = contents.sequence;
         var name = contents.name;
         var isCircular = contents.isCircular;
