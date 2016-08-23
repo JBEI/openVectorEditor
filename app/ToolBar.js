@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react';
 
 // Cerebral
 import { Decorator as Cerebral } from 'cerebral-view-react';
+import RestrictionEnzymeManager from './RectrictionEnzymeManager/RestrictionEnzymeManager';
 
 // Material UI
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
@@ -19,6 +20,7 @@ import uploadIcon from 'material-ui/lib/svg-icons/file/file-upload';
 import PrintIcon from 'material-ui/lib/svg-icons/action/print';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import TextField from 'material-ui/lib/text-field';
+import EnzymesIcon from 'material-ui/lib/svg-icons/action/track-changes';
 
 @Cerebral({
     embedded: ['embedded'],
@@ -53,6 +55,10 @@ export default class ToolBar extends React.Component {
             showSidebar,
             signals
         } = this.props;
+
+        var dialog = (
+            <RestrictionEnzymeManager />
+        );
 
         // show/hide views buttons that only appear in embedded mode
         var embeddedControls = (
@@ -172,7 +178,18 @@ export default class ToolBar extends React.Component {
                     </IconButton>                   
                     <IconMenu iconButtonElement={fileButtonElement} openDirection="bottom-right">
                         {fileMenuItems}
-                    </IconMenu>                  
+                    </IconMenu>
+                    <IconButton
+                        label="Dialog"
+                        tooltip='Manage Restriction Enzymes'
+                        onTouchTap={function() {
+                            signals.restrictionEnzymeManagerDisplay();
+                        }}
+                        >
+                        <EnzymesIcon />
+                    </IconButton>
+                    {dialog}
+
                 </ToolbarGroup>           
             
             </Toolbar>

@@ -28,7 +28,7 @@ var RowView = require('./RowView/RowView');
     showSidebar: ['showSidebar'],
     sidebarType: ['sidebarType'],
     cutsites: ['cutsites'],
-    orfData: ['orfData']
+    orfData: ['orfData'],
 })
 
 export default class SequenceEditor extends React.Component {
@@ -124,6 +124,7 @@ export default class SequenceEditor extends React.Component {
             sidebarType,
             cutsites,
             orfData,
+            showRestrictionEnzymeManager,
             readOnly
         } = this.props;
 
