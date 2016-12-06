@@ -300,7 +300,6 @@ export default class SideBar extends React.Component {
                     feature={ annotation }
                     />
             );
-
         }
 
         var actions = (
