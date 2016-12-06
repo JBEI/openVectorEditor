@@ -39,7 +39,7 @@ export default class SideBar extends React.Component {
 
     onRowSelection(selectedRows) {
         this.setState({ selectedRows: selectedRows });
-        console.log(selectedRows)
+        console.log(selectedRows);
     }
 
     editFeature(currentFeature) {
@@ -290,8 +290,9 @@ export default class SideBar extends React.Component {
         }
 
         // FEATURE DETAIL
-        if (this.state.selectedRows.length === 1 && sidebarType === "Features") {
-            let annotation = annotations[this.state.selectedRows[0]];
+        if (this.state.selectedRows.length > 0 && sidebarType === "Features") {
+            console.log(this.state);
+            var annotation = annotations[this.state.selectedRows[0]];
 
             var annotationForm = (
                 <SidebarDetail

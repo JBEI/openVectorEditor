@@ -19,7 +19,6 @@ export default class SidebarDetail extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             feature: assign({}, this.props.feature),
             newFeature: {},
@@ -34,9 +33,13 @@ export default class SidebarDetail extends React.Component {
         if (this.props.createFeature != null) {
             this.state.style = {backgroundColor: 'white', position: 'relative', width: '350px', height: '360px', paddingBottom: '10px', overflowY: 'scroll'};
         } else {
-            this.state.style = {padding: '0 20px', borderTop: '1px #999 solid'};
+            this.state.style = {padding: '0 20px 40px 20px', borderTop: '1px #999 solid'};
         }
     }
+    componentWillReceiveProps(nextProps) {
+        this.setState({feature: assign({}, nextProps.feature)});
+    }
+
 
     save = () => {
         this.props.editFeature(this.state.feature);
