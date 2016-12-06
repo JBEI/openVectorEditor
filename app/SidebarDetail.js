@@ -34,7 +34,7 @@ export default class SidebarDetail extends React.Component {
         if (this.props.createFeature != null) {
             this.state.style = {backgroundColor: 'white', position: 'relative', width: '350px', height: '360px', paddingBottom: '10px', overflowY: 'scroll'};
         } else {
-            this.state.style = {backgroundColor: 'white', position: 'fixed', padding: '20px', marginLeft: '580px', width: '300px', border: '1px solid #ccc', zIndex: '55'};
+            this.state.style = {padding: '0 20px', borderTop: '1px #999 solid'};
         }
     }
 

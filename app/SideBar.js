@@ -22,7 +22,7 @@ import SidebarDetail from './SidebarDetail';
     showAddFeatureModal: ['showAddFeatureModal'],
     showOrfModal: ['showOrfModal'],
     cutsites: ['cutsites'],
-    minimumOrfSize: ['minimumOrfSize'],    
+    minimumOrfSize: ['minimumOrfSize'],
     readOnly: ['readOnly'],
     sidebarType: ['sidebarType']
 })
@@ -83,8 +83,8 @@ export default class SideBar extends React.Component {
 
     render() {
         var {
-            annotations,   
-            cutsites,         
+            annotations,
+            cutsites,
             minimumOrfSize,
             readOnly,
             sidebarType,
@@ -102,8 +102,8 @@ export default class SideBar extends React.Component {
         // TABS
         var tabStyle = {textAlign: 'center', flexGrow: '1', padding: '10px 30px', fontSize: '16px'};
         var selectedTabStyle = {};
-        Object.assign(selectedTabStyle, tabStyle, {backgroundColor: 'white', borderTopRightRadius: '4px', borderTopLeftRadius: '4px'});        
-        
+        Object.assign(selectedTabStyle, tabStyle, {backgroundColor: 'white', borderTopRightRadius: '4px', borderTopLeftRadius: '4px'});
+
         var topTabs = (
             <div id='featureTabs' style={{display: 'flex', backgroundColor: '#ccc'}}>
                 <div style={sidebarType==='Features' ? selectedTabStyle : tabStyle} onClick={function() {
@@ -139,7 +139,7 @@ export default class SideBar extends React.Component {
                         cellEntry = annotation[column].toString();
                     }
                     if (column === 'position') {
-                        cellEntry = annotation['start'] + " - " + annotation['end']; 
+                        cellEntry = annotation['start'] + " - " + annotation['end'];
                     }
                     if (column === 'strand') {
                         if (annotation['forward']) {
@@ -185,7 +185,7 @@ export default class SideBar extends React.Component {
             annotationTableRows = [];
             for (var enzyme in annotations) { // this is an object so we loop differently
                 let annotationTableCells = [];
-                let annotation = annotations[enzyme];   
+                let annotation = annotations[enzyme];
 
                 // first loop for enzyme name and number of cuts
                 // [enzyme] [# cuts] [empty] [empty]
@@ -202,7 +202,7 @@ export default class SideBar extends React.Component {
                     annotationTableCells.push((<TableRowColumn key={j}>{ cellEntry }</TableRowColumn>));
                 }
                 annotationTableRows.push((<TableRow>{ annotationTableCells }</TableRow>));
-                annotationTableCells = [];                
+                annotationTableCells = [];
 
                 // sub loop for each cut location
                 // [empty] [empty] [position] [strand]
@@ -215,7 +215,7 @@ export default class SideBar extends React.Component {
                         if (column === 'position') {
                             cellEntry = annotation[cut]['start'] + " - " + annotation[cut]['end'];
 
-                        }                    
+                        }
                         if (column === 'strand') {
                             if (annotation[cut]['forward']) {
                                 cellEntry = "+";
@@ -223,10 +223,10 @@ export default class SideBar extends React.Component {
                                 cellEntry = "-";
                             }
                         }
-                        annotationTableCells.push((<TableRowColumn key={k}>{ cellEntry }</TableRowColumn>));   
+                        annotationTableCells.push((<TableRowColumn key={k}>{ cellEntry }</TableRowColumn>));
                     }
                     annotationTableRows.push((<TableRow>{ annotationTableCells }</TableRow>));
-                    annotationTableCells = [];                        
+                    annotationTableCells = [];
                 }
             }
         }
@@ -250,7 +250,7 @@ export default class SideBar extends React.Component {
 
                     if (column === 'position') {
                         cellEntry = annotation['start'] + " - " + annotation['end'];
-                    }  else                  
+                    }  else
                     if (column === 'strand') {
                         if (annotation['forward']) {
                             cellEntry = "+";
@@ -269,12 +269,12 @@ export default class SideBar extends React.Component {
             }
             var orfControls = (
                 <div style={ sidebarControlStyle }>
-                    Minimum ORF Size: { minimumOrfSize }                
-                    { readOnly ? null : 
+                    Minimum ORF Size: { minimumOrfSize }
+                    { readOnly ? null :
                         <div id='orfControl' onClick={function() {signals.showChangeMinOrfSizeDialog()}}
                         style={{display: 'inline-block', marginLeft: '10px', backgroundColor: '#65B6DE', color: 'white', padding: '3px 6px', borderRadius: '4px'}}> Change </div>
                     }
-                    { showOrfModal ? 
+                    { showOrfModal ?
                         <div id='orfModal' style={{display: 'inline', marginLeft:'20px', height: '26px'}}>
                             <input id='orfInput' type='number' defaultValue={ minimumOrfSize }/>
                             <button name='setOrfMin' onTouchTap={function () {
@@ -283,10 +283,10 @@ export default class SideBar extends React.Component {
                                 signals.showChangeMinOrfSizeDialog();
                             }}>Set</button>
                             <button name='closeOrfModal' onClick={function() {signals.showChangeMinOrfSizeDialog()}}>Cancel</button>
-                        </div> : null 
+                        </div> : null
                     }
                 </div>
-            );            
+            );
         }
 
         // FEATURE DETAIL
@@ -294,9 +294,9 @@ export default class SideBar extends React.Component {
             let annotation = annotations[this.state.selectedRows[0]];
 
             var annotationForm = (
-                <SidebarDetail 
-                    editFeature={this.editFeature.bind(this)} 
-                    feature={ annotation } 
+                <SidebarDetail
+                    editFeature={this.editFeature.bind(this)}
+                    feature={ annotation }
                     />
             );
 
@@ -318,7 +318,7 @@ export default class SideBar extends React.Component {
         );
 
         var sidebarDetail = (
-                <SidebarDetail createFeature={this.createFeature.bind(this)} 
+                <SidebarDetail createFeature={this.createFeature.bind(this)}
                     feature = {{start: 0, end: 0, strand: -1, name: "", type: ""}}
                     />
             );
@@ -333,7 +333,7 @@ export default class SideBar extends React.Component {
                     open={showAddFeatureModal}
                     style={{height: '700px', position: 'absolute', maxWidth: '500px'}}
                     titleStyle={{paddingBottom: "0px"}}
-                    >                    
+                    >
                     { sidebarDetail }
                     { actions }
                 </Dialog>
@@ -341,24 +341,24 @@ export default class SideBar extends React.Component {
         }
 
         return ( // {{}} tabs onclick need to deselect any selected row
-            <div> 
+            <div>
 
                 { topTabs }
 
-                <div style={{position: 'absolute', top: '42px', left: '0', right: '0', bottom: '50px', overflowY: 'scroll'}}>
+                <div style={{position: 'absolute', top: '42px', left: '0', right: '0', bottom: '50px', overflowY: 'scroll', border: '1px solid #e0e0e0'}}>
                     <Table ref="sideBar" style={{minWidth: '500px'}} multiSelectable={ false } onRowSelection={this.onRowSelection.bind(this)}>
                         <TableHeader displaySelectAll={ false } adjustForCheckbox={ false }>
                             <TableRow>{ tableHeaderCells }</TableRow>
                         </TableHeader>
                         <TableBody deselectOnClickaway={ false } displayRowCheckbox={ false }>{ annotationTableRows }</TableBody>
                     </Table>
+                    { annotationForm }
                 </div>
 
                 { featureControls }
 
-                { orfControls }
 
-                { annotationForm }
+                { orfControls }
 
                 { addFeatureDialog }
 
