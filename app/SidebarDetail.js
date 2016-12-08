@@ -5,6 +5,8 @@ import AddBoxIcon from 'material-ui/lib/svg-icons/content/add-box';
 import IndeterminateCheckBoxIcon from 'material-ui/lib/svg-icons/toggle/indeterminate-check-box';
 import IconButton from 'material-ui/lib/icon-button';
 import assign from 'lodash/object/assign';
+import FlatButton from 'material-ui/lib/flat-button';
+
 
 // {{}} remove this.state and do it correctly
 
@@ -30,11 +32,11 @@ export default class SidebarDetail extends React.Component {
         } else {
             this.state.feature.notes = this.props.feature.notes.slice();
         }
-        if (this.props.createFeature != null) {
-            this.state.style = {backgroundColor: 'white', position: 'relative', width: '350px', height: '360px', paddingBottom: '10px', overflowY: 'scroll'};
-        } else {
-            this.state.style = {padding: '0 20px 40px 20px', borderTop: '1px #999 solid'};
-        }
+        // if (this.props.createFeature != null) {
+            this.state.style = {backgroundColor: 'white', position: 'relative', width: '350px', height: '360px', paddingBottom: '10px', overflowY: 'visible'};
+        // } else {
+            // this.state.style = {padding: '0 20px 40px 20px', borderTop: '1px #999 solid'};
+        // }
     }
     componentWillReceiveProps(nextProps) {
         this.setState({feature: assign({}, nextProps.feature)});
@@ -60,8 +62,15 @@ export default class SidebarDetail extends React.Component {
             showAddFeatureModal
         } = this.props;
 
-        if (!showAddFeatureModal) {
-            var saveButton = (<button onClick={this.save}> Save Changes </button>);
+        if (this.props.feature.notes) {
+            var saveButton = (
+                <FlatButton
+                    onTouchTap={this.save}
+                    label="Save Changes"
+                    style={{color: "#03A9F4", position: 'absolute', top: '360px', left: '90px'}}
+                />
+            );
+
         }
 
         return (

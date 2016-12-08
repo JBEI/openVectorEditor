@@ -39,7 +39,11 @@ export default class SideBar extends React.Component {
 
     onRowSelection(selectedRows) {
         this.setState({ selectedRows: selectedRows });
-        console.log(selectedRows);
+        this.openEditFeatureDisplay();
+    }
+
+    openEditFeatureDisplay() {
+        this.props.signals.addFeatureModalDisplay();
     }
 
     editFeature(currentFeature) {
@@ -47,6 +51,7 @@ export default class SideBar extends React.Component {
             feature: currentFeature
         });
         this.setState({ selectedRows: [] });
+        this.props.signals.addFeatureModalDisplay();
     }
 
     deleteFeatures() {
@@ -290,43 +295,50 @@ export default class SideBar extends React.Component {
         }
 
         // FEATURE DETAIL
-        if (this.state.selectedRows.length > 0 && sidebarType === "Features") {
-            console.log(this.state);
-            var annotation = annotations[this.state.selectedRows[0]];
-
-            var annotationForm = (
-                <SidebarDetail
-                    editFeature={this.editFeature.bind(this)}
-                    feature={ annotation }
-                    />
-            );
-        }
-
-        var actions = (
-            // {{}} why are the function calls different?
-            <div>
-                <FlatButton
-                    label="Cancel"
-                    onTouchTap={function() {signals.addFeatureModalDisplay()}}
-                    />
-                <FlatButton
-                    label="Add Feature"
-                    style={{color: "#03A9F4"}}
-                    onTouchTap={this.addFeature.bind(this)}
-                    />
-            </div>
-        );
-
-        var sidebarDetail = (
-                <SidebarDetail createFeature={this.createFeature.bind(this)}
+        if (showAddFeatureModal) {
+            if (this.state.selectedRows.length > 0 && sidebarType === "Features") {
+                var sidebarDetail = (
+                    <SidebarDetail
+                        editFeature={this.editFeature.bind(this)}
+                        feature={ annotations[this.state.selectedRows[0]] }
+                        />
+                );
+                var title = "Edit Feature";
+                var actions = (
+                    // {{}} why are the function calls different?
+                    <div>
+                        <FlatButton
+                            label="Cancel"
+                            onTouchTap={function() {signals.addFeatureModalDisplay()}}
+                        />
+                    </div>
+                );
+            } else {
+                var sidebarDetail = (
+                    <SidebarDetail createFeature={this.createFeature.bind(this)}
                     feature = {{start: 0, end: 0, strand: -1, name: "", type: ""}}
                     />
-            );
+                );
+                var title = "Add New Feature";
+                var actions = (
+                    // {{}} why are the function calls different?
+                    <div>
+                        <FlatButton
+                            label="Cancel"
+                            onTouchTap={function() {signals.addFeatureModalDisplay()}}
+                        />
+                        <FlatButton
+                            label="Add Feature"
+                            style={{color: "#03A9F4"}}
+                            onTouchTap={this.addFeature.bind(this)}
+                        />
+                    </div>
+                );
+            }
 
-        if (showAddFeatureModal) {
             var addFeatureDialog = (
                 <Dialog
-                    title="Add New Feature"
+                    title={title}
                     autoDetectWindowHeight={false}
                     autoScrollBodyContent={false}
                     // actions={actions}
@@ -352,11 +364,9 @@ export default class SideBar extends React.Component {
                         </TableHeader>
                         <TableBody deselectOnClickaway={ false } displayRowCheckbox={ false }>{ annotationTableRows }</TableBody>
                     </Table>
-                    { annotationForm }
                 </div>
 
                 { featureControls }
-
 
                 { orfControls }
 
