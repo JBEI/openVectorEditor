@@ -33,7 +33,7 @@ export default class SideBar extends React.Component {
 
         this.state = {
             selectedRows: [],
-            newFeature: {},
+            newFeature: {start: 0, end: 0, strand: -1, name: "", type: ""},
         };
     }
 
@@ -62,10 +62,11 @@ export default class SideBar extends React.Component {
 
         this.props.signals.deleteFeatures({ featureIds: featureIds });
         this.setState({ selectedRows: [] });
+        this.props.signals.addFeatureModalDisplay();
     }
 
     openAddFeatureDisplay() {
-        this.setState({ selectedRows: [] });
+        this.setState({ selectedRows: [], newFeature: {start: 0, end: 0, strand: -1, name: "", type: ""} });
         this.props.signals.addFeatureModalDisplay();
     }
 
@@ -295,8 +296,8 @@ export default class SideBar extends React.Component {
         }
 
         // FEATURE DETAIL
-        if (showAddFeatureModal) {
-            if (this.state.selectedRows.length > 0 && sidebarType === "Features") {
+        if (showAddFeatureModal && sidebarType === "Features") {
+            if (this.state.selectedRows.length > 0) {
                 var sidebarDetail = (
                     <SidebarDetail
                         editFeature={this.editFeature.bind(this)}
@@ -311,12 +312,18 @@ export default class SideBar extends React.Component {
                             label="Cancel"
                             onTouchTap={function() {signals.addFeatureModalDisplay()}}
                         />
+                        <IconButton
+                            onClick={this.deleteFeatures.bind(this)}
+                            style={{position:'absolute',top:'763px',left:'-12px',backgroundColor:'white'}}
+                            >
+                            <IndeterminateCheckBoxIcon />
+                        </IconButton>
                     </div>
                 );
             } else {
                 var sidebarDetail = (
                     <SidebarDetail createFeature={this.createFeature.bind(this)}
-                    feature = {{start: 0, end: 0, strand: -1, name: "", type: ""}}
+                        feature = {{start: 0, end: 0, strand: -1, name: "", type: ""}}
                     />
                 );
                 var title = "Add New Feature";

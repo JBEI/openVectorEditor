@@ -32,16 +32,9 @@ export default class SidebarDetail extends React.Component {
         } else {
             this.state.feature.notes = this.props.feature.notes.slice();
         }
-        // if (this.props.createFeature != null) {
-            this.state.style = {backgroundColor: 'white', position: 'relative', width: '350px', height: '360px', paddingBottom: '10px', overflowY: 'visible'};
-        // } else {
-            // this.state.style = {padding: '0 20px 40px 20px', borderTop: '1px #999 solid'};
-        // }
-    }
-    componentWillReceiveProps(nextProps) {
-        this.setState({feature: assign({}, nextProps.feature)});
-    }
+        this.state.style = {backgroundColor: 'white', position: 'relative', width: '350px', height: '360px', paddingBottom: '10px', overflowY: 'visible'};
 
+    }
 
     save = () => {
         this.props.editFeature(this.state.feature);
@@ -62,7 +55,7 @@ export default class SidebarDetail extends React.Component {
             showAddFeatureModal
         } = this.props;
 
-        if (this.props.feature.notes) {
+        if (this.props.feature.id) {
             var saveButton = (
                 <FlatButton
                     onTouchTap={this.save}
@@ -70,7 +63,6 @@ export default class SidebarDetail extends React.Component {
                     style={{color: "#03A9F4", position: 'absolute', top: '360px', left: '90px'}}
                 />
             );
-
         }
 
         return (
