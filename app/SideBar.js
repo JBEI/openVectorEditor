@@ -66,14 +66,15 @@ export default class SideBar extends React.Component {
     }
 
     openAddFeatureDisplay() {
-        this.setState({ selectedRows: [], newFeature: {start: 0, end: 0, strand: -1, name: "", type: ""} });
+        this.setState({
+                        selectedRows: [],
+                        newFeature: {start: 0, end: 0, strand: -1, name: "", type: ""}
+                     });
         this.props.signals.addFeatureModalDisplay();
     }
 
     createFeature(newFeature) {
-        this.setState({
-            newFeature: newFeature,
-        });
+        this.setState({ newFeature: newFeature });
     }
 
     addFeature() {
@@ -297,61 +298,69 @@ export default class SideBar extends React.Component {
 
         // FEATURE DETAIL
         if (showAddFeatureModal && sidebarType === "Features") {
+            var title;
+            var extraButton;
+            var sidebarDetail;
+            var cancelButton = (
+                <FlatButton
+                    label="Cancel"
+                    onTouchTap={function() {signals.addFeatureModalDisplay()}}
+                />
+            );
+
             if (this.state.selectedRows.length > 0) {
-                var sidebarDetail = (
+
+                title = "Edit Feature";
+                extraButton = (
+                    <IconButton
+                        onClick={this.deleteFeatures.bind(this)}
+                        style={{position:'absolute',top:'763px',left:'-12px',backgroundColor:'white'}}>
+                        <IndeterminateCheckBoxIcon />
+                    </IconButton>
+                );
+
+                sidebarDetail = (
                     <SidebarDetail
                         editFeature={this.editFeature.bind(this)}
-                        feature={ annotations[this.state.selectedRows[0]] }
-                        />
-                );
-                var title = "Edit Feature";
-                var actions = (
-                    // {{}} why are the function calls different?
-                    <div>
-                        <FlatButton
-                            label="Cancel"
-                            onTouchTap={function() {signals.addFeatureModalDisplay()}}
-                        />
-                        <IconButton
-                            onClick={this.deleteFeatures.bind(this)}
-                            style={{position:'absolute',top:'763px',left:'-12px',backgroundColor:'white'}}
-                            >
-                            <IndeterminateCheckBoxIcon />
-                        </IconButton>
-                    </div>
-                );
-            } else {
-                var sidebarDetail = (
-                    <SidebarDetail createFeature={this.createFeature.bind(this)}
-                        feature = {{start: 0, end: 0, strand: -1, name: "", type: ""}}
+                        feature={annotations[this.state.selectedRows[0]]}
                     />
                 );
-                var title = "Add New Feature";
-                var actions = (
-                    // {{}} why are the function calls different?
-                    <div>
-                        <FlatButton
-                            label="Cancel"
-                            onTouchTap={function() {signals.addFeatureModalDisplay()}}
-                        />
-                        <FlatButton
-                            label="Add Feature"
-                            style={{color: "#03A9F4"}}
-                            onTouchTap={this.addFeature.bind(this)}
-                        />
-                    </div>
+
+            } else {
+                title = "Add New Feature";
+
+                extraButton = (
+                    <FlatButton
+                        label="Add Feature"
+                        style={{color: "#03A9F4"}}
+                        onTouchTap={this.addFeature.bind(this)}
+                    />
+                );
+
+                sidebarDetail = (
+                    <SidebarDetail
+                        createFeature={this.createFeature.bind(this)}
+                        feature={{start: 0, end: 0, strand: -1, name: "", type: ""}}
+                    />
                 );
             }
 
+            var actions = (
+                <div>
+                    {cancelButton}
+                    {extraButton}
+                </div>
+            );
+
+
             var addFeatureDialog = (
-                <Dialog
-                    title={title}
-                    autoDetectWindowHeight={false}
-                    autoScrollBodyContent={false}
-                    // actions={actions}
-                    open={showAddFeatureModal}
-                    style={{height: '700px', position: 'absolute', maxWidth: '500px'}}
-                    titleStyle={{paddingBottom: "0px"}}
+                <Dialog title={title}
+                        autoDetectWindowHeight={false}
+                        autoScrollBodyContent={false}
+                        // actions={actions}
+                        open={showAddFeatureModal}
+                        style={{height: '700px', position: 'absolute', maxWidth: '500px'}}
+                        titleStyle={{paddingBottom: "0px"}}
                     >
                     { sidebarDetail }
                     { actions }
