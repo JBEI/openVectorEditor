@@ -18,7 +18,6 @@ export default class RailFeature extends React.Component {
 
         const arrowSlope = 100;
         const width = Math.max(end - start, arrowSlope);
-        const tail = width - arrowSlope > arrowSlope;
         const flip = {
             toString: () => {
                 if (!feature.forward) return `translate(${width}, 0) scale(-1,1)`;
@@ -35,7 +34,6 @@ export default class RailFeature extends React.Component {
                         L ${width}, ${height/2}
                         L ${width - arrowSlope}, ${height}
                         L 0, ${height}
-                        L ${(tail) ? arrowSlope : 0}, ${height/2}
                         Z`}
                     fill={color}
                     stroke={'black'}
