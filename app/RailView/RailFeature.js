@@ -7,6 +7,7 @@ export default class RailFeature extends React.Component {
         var {
             feature,
             height,
+            offset,
             signals
         } = this.props;
 
@@ -28,7 +29,7 @@ export default class RailFeature extends React.Component {
         };
 
         return (
-            <g>
+            <g transform={`translate(0, ${offset})`}>
                 <path
                     d={`M 0, 0
                         L ${width - arrowSlope}, 0

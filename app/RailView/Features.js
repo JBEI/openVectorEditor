@@ -29,15 +29,14 @@ export default function Features({features = [], annotationHeight, spaceBetweenA
         offset *= annotationHeight + spaceBetweenAnnotations;
 
         svgGroups.push(
-            <g transform={`translate(0, ${offset})`}>
-                <RailFeature
-                    id={feature.id}
-                    key={'features' + (length - index)}
-                    feature={feature}
-                    height={annotationHeight}
-                    signals={signals}
-                />
-            </g>
+            <RailFeature
+                id={feature.id}
+                key={'features' + (length - index)}
+                feature={feature}
+                height={annotationHeight}
+                offset={offset}
+                signals={signals}
+            />
         );
     });
 
