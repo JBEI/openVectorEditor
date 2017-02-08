@@ -14,22 +14,21 @@ export default class RailFeature extends React.Component {
         var {
             start,
             end,
-            color
+            color,
+            name
         } = feature;
 
         const maxArrowSlope = 100;
         const width = end - start;
         const arrowSlope = Math.min(width, maxArrowSlope);
-        const flip = {
-            toString: () => {
+        const flip = () => {
                 if (!feature.forward) return `translate(${width}, 0) scale(-1,1)`;
 
                 return '';
-            }
-        };
+            };
 
         return (
-            <g transform={`translate(0, ${offset})`}>
+            <g transform={`translate(${start}, ${offset})`}>
                 <path
                     d={`M 0, 0
                         L ${width - arrowSlope}, 0
@@ -42,7 +41,7 @@ export default class RailFeature extends React.Component {
                     strokeWidth={'.25px'}
                     vectorEffect={'non-scaling-stroke'}
                     style={{vectorEffect: 'non-scaling-stroke'}}
-                    transform={`translate(${start}, 0) ${flip}`}
+                    transform={`${flip()}`}
                     onClick={(e) => {
                         e.stopPropagation();
                         signals.featureClicked({annotation: feature})

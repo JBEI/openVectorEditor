@@ -25,6 +25,7 @@ export default class RailView extends React.Component {
         } = this.props;
 
         var annotationsSvgs = [];
+        var labels = [];
         const baseWidth = 250;
         const annotationHeight = 4;
         const spaceBetweenAnnotations = 2;
@@ -34,14 +35,15 @@ export default class RailView extends React.Component {
         }
 
         if (showFeatures) {
-            var featureResults = Features({
-                features: sequenceData.features,
+            var featureResults = Features(
+                sequenceData.features,
                 annotationHeight,
                 spaceBetweenAnnotations,
                 sequenceLength,
                 signals
-            });
+            );
 
+            labels = featureResults.labels;
             annotationsSvgs.push(featureResults.component);
         }
 
@@ -87,6 +89,7 @@ export default class RailView extends React.Component {
             <svg
                 className={styles.svg}
                 viewBox={'-150 -150 300 300'}
+                preserveAspectRatio={'xMidYMid meet'}
             >
                 <marker id="codon" markerWidth="3" markerHeight="3" refx="0" refy="3" orient="auto">
                     <circle fill="red" cx="0" cy="0" r="2"/>
@@ -100,8 +103,13 @@ export default class RailView extends React.Component {
                         />
                 </marker>
 
-                <g transform={`translate(-${baseWidth / 2}, 0) scale(${baseWidth / sequenceLength}, 1)`}>
-                    { annotationsSvgs }
+                <g transform={`translate(-${baseWidth / 2}, 0) `}>
+                    <g>
+                        { labels }
+                    </g>
+                    <g transform={`scale(${baseWidth / sequenceLength}, 1)`}>
+                        { annotationsSvgs }
+                    </g>
                 </g>
             </svg>
         );
