@@ -1,5 +1,6 @@
 import React from 'react';
 import { Decorator as Cerebral } from 'cerebral-view-react';
+import Draggable from 'react-draggable';
 import styles from './RailView.scss';
 import Caret from './Caret';
 import Bar from './Bar';
@@ -13,6 +14,22 @@ import Features from './Features';
     showFeatures: ['showFeatures']
 })
 export default class RailView extends React.Component {
+
+    getNearestCursorPositionToMouseEvent(event, sequenceLength, callback) {
+        var {
+            rail
+        } = this.refs;
+
+        var boundingRect = rail.getBoundingClientRect();
+        var clickX = event.clientX - boundingRect.left;
+        var nearestBP = Math.floor(sequenceLength / boundingRect.width * clickX);
+
+        callback({
+            shiftHeld: event.shiftKey,
+            nearestBP,
+            caretGrabbed: false
+        });
+    }
 
     render() {
         var {
@@ -86,32 +103,43 @@ export default class RailView extends React.Component {
         }
 
         return (
-            <svg
-                className={styles.svg}
-                viewBox={'-150 -150 300 300'}
-                preserveAspectRatio={'xMidYMid meet'}
-            >
-                <marker id="codon" markerWidth="3" markerHeight="3" refx="0" refy="3" orient="auto">
-                    <circle fill="red" cx="0" cy="0" r="2"/>
-                </marker>
-                <marker id="arrow" markerWidth="3" markerHeight="3" refx="0" refy="3" orient="auto">
-                    <path
-                        d="M 0 0 L 0 6 L 9 150 L 200 50"
-                        stroke="red"
-                        strokeWidth="3"
-                        fill="none"
-                        />
-                </marker>
+            <Draggable
+                bounds={{top: 0, left: 0, right: 0, bottom: 0}}
+                onDrag={(event) => {
+                        this.getNearestCursorPositionToMouseEvent(event, sequenceLength, signals.editorDragged)
+                    }}
+                onStart={(event) => {
+                        this.getNearestCursorPositionToMouseEvent(event, sequenceLength, signals.editorDragStarted)
+                    }}
+                onStop={signals.editorDragStopped}
+                >
+                <svg
+                    className={styles.svg}
+                    viewBox={'-150 -150 300 300'}
+                    preserveAspectRatio={'xMidYMid meet'}
+                >
+                    <marker id="codon" markerWidth="3" markerHeight="3" refx="0" refy="3" orient="auto">
+                        <circle fill="red" cx="0" cy="0" r="2"/>
+                    </marker>
+                    <marker id="arrow" markerWidth="3" markerHeight="3" refx="0" refy="3" orient="auto">
+                        <path
+                            d="M 0 0 L 0 6 L 9 150 L 200 50"
+                            stroke="red"
+                            strokeWidth="3"
+                            fill="none"
+                            />
+                    </marker>
 
-                <g transform={`translate(-${baseWidth / 2}, 0) `}>
-                    <g>
-                        { labels }
+                    <g ref={'rail'} transform={`translate(-${baseWidth / 2}, 0) `}>
+                        <g>
+                            { labels }
+                        </g>
+                        <g transform={`scale(${baseWidth / sequenceLength}, 1)`}>
+                            { annotationsSvgs }
+                        </g>
                     </g>
-                    <g transform={`scale(${baseWidth / sequenceLength}, 1)`}>
-                        { annotationsSvgs }
-                    </g>
-                </g>
-            </svg>
+                </svg>
+            </Draggable>
         );
     }
 
