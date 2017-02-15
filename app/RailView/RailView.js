@@ -80,7 +80,7 @@ export default class RailView extends React.Component {
 
             annotationsSvgs.push(
                 <path
-                    style={{opacity: .4}}
+                    style={{opacity: .4, pointerEvents: 'none'}}
                     d={`M ${start}, 0 L ${end}, 0 L ${end}, ${height} L ${start}, ${height} Z`}
                     fill={'blue'}
                 />
