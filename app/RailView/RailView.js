@@ -22,7 +22,9 @@ export default class RailView extends React.Component {
 
         var boundingRect = rail.getBoundingClientRect();
         var clickX = event.clientX - boundingRect.left;
-        var nearestBP = Math.floor(sequenceLength / boundingRect.width * clickX);
+        clickX = Math.max(0, clickX);
+        clickX = Math.min(boundingRect.width, clickX);
+        var nearestBP = Math.floor(sequenceLength / boundingRect.width * clickX) + 1; // base pairs are not zero indexed
 
         callback({
             shiftHeld: event.shiftKey,
