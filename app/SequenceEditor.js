@@ -160,8 +160,6 @@ export default class SequenceEditor extends React.Component {
         if(!showCircular) circularStyle = {display: 'none'}
         if (oneViewOnly) {
             circularStyle = Object.assign(circularStyle, {margin: '0 15%'})
-            // rowStyle = Object.assign(rowStyle, {margin: '0 15%'})
-            console.log("added margin to circular")
         }
         var rowStyle = {}
         if(embedded || !showRow) rowStyle = {display: 'none'}
