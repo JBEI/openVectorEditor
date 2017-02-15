@@ -72,10 +72,10 @@ export default class RailView extends React.Component {
                 end
             } = selectionLayer;
 
-            let height = 8;
+            let height = 4;
 
             if (featureResults && featureResults.height) {
-                height = featureResults.height
+                height += featureResults.height
             }
 
             annotationsSvgs.push(
