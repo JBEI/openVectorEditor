@@ -44,6 +44,7 @@ export default class RailView extends React.Component {
         } = this.props;
 
         var annotationsSvgs = [];
+        var selectionSVGs = [];
         var labels = [];
         const baseWidth = 250;
         const annotationHeight = 4;
@@ -78,7 +79,7 @@ export default class RailView extends React.Component {
                 height += featureResults.height
             }
 
-            annotationsSvgs.push(
+            selectionSVGs.push(
                 <path
                     style={{opacity: .4, pointerEvents: 'none'}}
                     d={`M ${start}, 0 L ${end}, 0 L ${end}, ${height} L ${start}, ${height} Z`}
@@ -86,7 +87,7 @@ export default class RailView extends React.Component {
                 />
             );
 
-            annotationsSvgs.push(
+            selectionSVGs.push(
                 <Caret
                     key='caretStart'
                     caretPosition={start}
@@ -94,7 +95,7 @@ export default class RailView extends React.Component {
                     height={height}
                     />
             );
-            annotationsSvgs.push(
+            selectionSVGs.push(
                 <Caret
                     key='caretEnd'
                     caretPosition={end + 1}
@@ -133,6 +134,9 @@ export default class RailView extends React.Component {
                     </marker>
 
                     <g ref={'rail'} transform={`translate(-${baseWidth / 2}, 0) `}>
+                        <g>
+                            { selectionSVGs }
+                        </g>
                         <g>
                             { labels }
                         </g>
