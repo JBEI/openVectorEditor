@@ -9,6 +9,8 @@ export default function Features(features = [], annotationHeight, spaceBetweenAn
     var svgGroups = [];
     var featureITree = new IntervalTree(sequenceLength / 2);
     var maxYOffset = 0;
+    var names = [];
+    var labels = [];
 
     features.forEach((feature, index) => {
         let {
@@ -38,7 +40,14 @@ export default function Features(features = [], annotationHeight, spaceBetweenAn
                 signals={signals}
             />
         );
+
+        names.push({ name: feature.name, x: feature.start });
     });
+
+    for (let i = 0; i < names.length / 2; i++) {
+        labels.push(<text x={names[names.length - 1 - i].x} y={i * 10}>{names[names.length - 1 - i]}</text>)
+        labels.push(<text x={names[i].x} y={i * 10}>{names[i]}</text>)
+    }
 
     var totalAnnotationHeight = maxYOffset * (annotationHeight * spaceBetweenAnnotations);
 
@@ -51,7 +60,8 @@ export default function Features(features = [], annotationHeight, spaceBetweenAn
                 { svgGroups }
             </g>
         ),
-        height: totalAnnotationHeight
+        height: totalAnnotationHeight,
+        labels
     };
 
 }
