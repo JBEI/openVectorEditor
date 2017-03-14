@@ -9,7 +9,8 @@ export default function Features(features = [], annotationHeight, spaceBetweenAn
     var svgGroups = [];
     var featureITree = new IntervalTree(sequenceLength / 2);
     var maxYOffset = 0;
-    var names = [];
+    var fontWidth = 4;
+    var fontHeight = fontWidth * 1.5;
     var labels = [];
 
     features.forEach((feature, index) => {
@@ -41,12 +42,23 @@ export default function Features(features = [], annotationHeight, spaceBetweenAn
             />
         );
 
-        names.push({ name: feature.name, x: feature.start });
+        let label = {text: feature.name, x: feature.start};
+        let cache = [];
+        while (labels.length > 0 && labels[0].x > label.x) cache.push(labels.shift());
+        cache.push(label)
+        labels = cache.concat(labels);
     });
 
-    for (let i = 0; i < names.length / 2; i++) {
-        labels.push(<text x={names[names.length - 1 - i].x} y={i * 10}>{names[names.length - 1 - i]}</text>)
-        labels.push(<text x={names[i].x} y={i * 10}>{names[i]}</text>)
+    function transform(value) {
+        return baseWidth / sequenceLength * value;
+    }
+
+    var labelComponents = [];
+    for (let i = 0; i < labels.length/2; i++) {
+        let labelA = labels[i];
+        let labelB = labels[labels.length - 1 - i];
+        labelComponents.push(<text style={{fontSize: fontWidth}} x={transform( labelA.x )} y={-i * fontWidth}>{labelA.text}</text>);
+        labelComponents.push(<text style={{fontSize: fontWidth}} x={transform( labelB.x )} y={-i * fontWidth}>{labelB.text}</text>);
     }
 
     var totalAnnotationHeight = maxYOffset * (annotationHeight * spaceBetweenAnnotations);
@@ -61,7 +73,7 @@ export default function Features(features = [], annotationHeight, spaceBetweenAn
             </g>
         ),
         height: totalAnnotationHeight,
-        labels
+        labelComponents
     };
 
 }

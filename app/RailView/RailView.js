@@ -11,7 +11,8 @@ import Features from './Features';
     sequenceData: ['sequenceData'],
     selectionLayer: ['selectionLayer'],
     showAxis: ['showAxis'],
-    showFeatures: ['showFeatures']
+    showFeatures: ['showFeatures'],
+    textWidth: ['textWidth']
 })
 export default class RailView extends React.Component {
 
@@ -40,6 +41,7 @@ export default class RailView extends React.Component {
             selectionLayer,
             showAxis,
             showFeatures,
+            textWidth,
             signals
         } = this.props;
 
@@ -63,7 +65,7 @@ export default class RailView extends React.Component {
                 signals
             );
 
-            labels = featureResults.labels;
+            labels = featureResults.labelComponents;
             annotationsSvgs.push(featureResults.component);
         }
 
