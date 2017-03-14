@@ -58,7 +58,7 @@ export default function Features(features = [], annotationHeight, spaceBetweenAn
         let labelA = labels[i];
         let labelB = labels[labels.length - 1 - i];
         labelComponents.push(<text style={{fontSize: fontWidth}} x={transform( labelA.x )} y={-i * fontWidth}>{labelA.text}</text>);
-        labelComponents.push(<text style={{fontSize: fontWidth}} x={transform( labelB.x )} y={-i * fontWidth}>{labelB.text}</text>);
+        labelComponents.push(<text style={{fontSize: fontWidth, textAnchor: 'end'}} x={transform( labelB.x )} y={-i * fontWidth}>{labelB.text}</text>);
     }
 
     var totalAnnotationHeight = maxYOffset * (annotationHeight * spaceBetweenAnnotations);
