@@ -53,12 +53,16 @@ export default function Features(features = [], annotationHeight, spaceBetweenAn
         return baseWidth / sequenceLength * value;
     }
 
+    function placeLabel(label, y, style={}) {
+        labelComponents.push(<text style={{ ...style, fontSize: fontWidth }} x={transform( label.x )} y={-y * fontWidth}>{label.text}</text>);
+    }
+
     var labelComponents = [];
     for (let i = 0; i < labels.length/2; i++) {
         let labelA = labels[i];
         let labelB = labels[labels.length - 1 - i];
-        labelComponents.push(<text style={{fontSize: fontWidth}} x={transform( labelA.x )} y={-i * fontWidth}>{labelA.text}</text>);
-        labelComponents.push(<text style={{fontSize: fontWidth, textAnchor: 'end'}} x={transform( labelB.x )} y={-i * fontWidth}>{labelB.text}</text>);
+        placeLabel(labelA, i);
+        placeLabel(labelB, i, {textAnchor: 'end'});
     }
 
     var totalAnnotationHeight = maxYOffset * (annotationHeight * spaceBetweenAnnotations);
