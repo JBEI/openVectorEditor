@@ -42,7 +42,7 @@ export default function Features(features = [], annotationHeight, spaceBetweenAn
             />
         );
 
-        let label = {text: feature.name, x: feature.start};
+        let label = {text: feature.name, x: feature.start, featureY: offset};
         let cache = [];
         while (labels.length > 0 && labels[0].x > label.x) cache.push(labels.shift());
         cache.push(label)
@@ -54,7 +54,10 @@ export default function Features(features = [], annotationHeight, spaceBetweenAn
     }
 
     function placeLabel(label, y, style={}) {
-        labelComponents.push(<text style={{ ...style, fontSize: fontWidth }} x={transform( label.x )} y={-y * fontWidth}>{label.text}</text>);
+        var x = transform( label.x );
+        y = -y * fontWidth;
+        labelComponents.push(<text style={{ ...style, fontSize: fontWidth }} x={x} y={y}>{label.text}</text>);
+        labelComponents.push(<line style={{strokeWidth: 0.1, stroke: 'black'}} x1={x} y1={y} x2={x} y2={label.featureY} />);
     }
 
     var labelComponents = [];
