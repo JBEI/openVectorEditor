@@ -55,9 +55,9 @@ export default function Features(features = [], annotationHeight, spaceBetweenAn
 
     function placeLabel(label, y, style={}) {
         var x = transform( label.x );
-        y = -y * fontWidth;
+        y = -y * fontWidth + -spaceBetweenAnnotations;
         labelComponents.push(<text style={{ ...style, fontSize: fontWidth }} x={x} y={y}>{label.text}</text>);
-        labelComponents.push(<line style={{strokeWidth: 0.1, stroke: 'black'}} x1={x} y1={y} x2={x} y2={label.featureY} />);
+        labelComponents.push(<line style={{strokeWidth: 0.1, stroke: 'black'}} x1={x} y1={y} x2={x} y2={label.featureY + 4 + spaceBetweenAnnotations * 2} />);
     }
 
     var labelComponents = [];

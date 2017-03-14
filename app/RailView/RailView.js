@@ -139,11 +139,12 @@ export default class RailView extends React.Component {
                         <g>
                             { selectionSVGs }
                         </g>
+                        {showAxis && <Bar baseWidth={baseWidth} />}
+                        <g>
+                            { annotationsSvgs }
+                        </g>
                         <g>
                             { labels }
-                        </g>
-                        <g transform={`scale(${baseWidth / sequenceLength}, 1)`}>
-                            { annotationsSvgs }
                         </g>
                     </g>
                 </svg>
