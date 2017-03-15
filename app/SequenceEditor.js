@@ -7,15 +7,16 @@ import styles from './sequence-editor.css';
 
 import RailView from './RailView/RailView';
 
+var assign = require('lodash/object/assign');
 var bindGlobalPlugin = require('combokeys/plugins/global-bind');
 var CircularView = require('./CircularView/CircularView');
 var Clipboard = require('./Clipboard');
 var Combokeys = require("combokeys");
-var combokeys;
 var RowView = require('./RowView/RowView');
+var combokeys;
 
 @Cerebral({
-    bpsPerRow: ['bpsPerRow'],    
+    bpsPerRow: ['bpsPerRow'],
     embedded: ['embedded'],
     sequenceLength: ['sequenceLength'],
     totalRows: ['totalRows'],
@@ -31,10 +32,12 @@ var RowView = require('./RowView/RowView');
     showSidebar: ['showSidebar'],
     sidebarType: ['sidebarType'],
     cutsitesByName: ['cutsitesByName'],
+    cutsites: ['cutsites'],
     orfData: ['orfData'],
 })
 
 export default class SequenceEditor extends React.Component {
+
     componentDidMount() {
         var {
             sequenceDataInserted,
@@ -97,6 +100,12 @@ export default class SequenceEditor extends React.Component {
         });
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.sequenceData !== prevProps.sequenceData) {
+            this.props.signals.updateHistory({ newHistory: prevProps.sequenceData });
+        }
+    }
+
     // copy and paste events are handled by a listener in the DOM element as listed below
     handlePaste(event) {
         var {
@@ -140,7 +149,7 @@ export default class SequenceEditor extends React.Component {
             showRow,
             showSidebar,
             sidebarType,
-            cutsitesByName,
+            cutsites,
             orfData,
             showRestrictionEnzymeManager,
             readOnly,
@@ -177,7 +186,7 @@ export default class SequenceEditor extends React.Component {
         } else if (sidebarType === 'Cutsites') {
             table = (
                 <SideBar
-                   annotations={cutsitesByName}
+                   annotations={cutsites}
                    annotationType={sidebarType}
                    />
             );
