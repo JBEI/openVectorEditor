@@ -4,7 +4,7 @@ import IntervalTree from 'interval-tree2';
 
 import getYOffset from './getYOffset';
 
-export default function Features(features = [], annotationHeight, spaceBetweenAnnotations = 2, sequenceLength, signals) {
+export default function Features(features = [], annotationHeight, spaceBetweenAnnotations = 2, baseWidth, sequenceLength, signals) {
 
     var svgGroups = [];
     var featureITree = new IntervalTree(sequenceLength / 2);
@@ -36,6 +36,8 @@ export default function Features(features = [], annotationHeight, spaceBetweenAn
                 id={feature.id}
                 key={'features' + (length - index)}
                 feature={feature}
+                sequenceLength={sequenceLength}
+                baseWidth={baseWidth}
                 height={annotationHeight}
                 offset={offset}
                 signals={signals}

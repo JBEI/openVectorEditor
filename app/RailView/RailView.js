@@ -52,15 +52,12 @@ export default class RailView extends React.Component {
         const annotationHeight = 4;
         const spaceBetweenAnnotations = 2;
 
-        if (showAxis) {
-            annotationsSvgs.push(<Bar baseWidth={baseWidth} />);
-        }
-
         if (showFeatures) {
             var featureResults = Features(
                 sequenceData.features,
                 annotationHeight,
                 spaceBetweenAnnotations,
+                baseWidth,
                 sequenceLength,
                 signals
             );
@@ -83,6 +80,7 @@ export default class RailView extends React.Component {
 
             selectionSVGs.push(
                 <path
+                    transform={`scale(${ baseWidth / sequenceLength }, 1) translate(${ baseWidth / sequenceLength }, 0)`}
                     style={{opacity: .4, pointerEvents: 'none'}}
                     d={`M ${start}, 0 L ${end}, 0 L ${end}, ${height} L ${start}, ${height} Z`}
                     fill={'blue'}

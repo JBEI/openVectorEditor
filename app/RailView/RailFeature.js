@@ -8,6 +8,8 @@ export default class RailFeature extends React.Component {
             feature,
             height,
             offset,
+            sequenceLength,
+            baseWidth,
             signals
         } = this.props;
 
@@ -18,7 +20,13 @@ export default class RailFeature extends React.Component {
             name
         } = feature;
 
-        const maxArrowSlope = 100;
+        function transform(value) {
+            return baseWidth / sequenceLength * value;
+        }
+
+        start = transform(start);
+        end = transform(end);
+        const maxArrowSlope = transform( 100 );
         const width = end - start;
         const arrowSlope = Math.min(width, maxArrowSlope);
         const flip = () => {
