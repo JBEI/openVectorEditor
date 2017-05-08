@@ -132,12 +132,22 @@ export default class RowView extends React.Component {
 
         var clickXPositionRelativeToRowContainer = event.clientX - boundingRowRect.left - 25; // 25 for left-padding
         if (clickXPositionRelativeToRowContainer < 0) {
-            nearestBP = row.start;
+            if (rowNumber === 0 && callback.chain[0].name == "handleEditorDragged") {
+                this.props.signals.jumpToRow({ rowToJumpTo: this.props.rowData.length - 1 });
+                nearestBP = this.props.sequenceLength - 1;
+            } else {
+                nearestBP = row.start;
+            }
         } else {
             var numberOfBPsInFromRowStart = Math.round(bpsPerRow * clickXPositionRelativeToRowContainer/textWidth);
             nearestBP = numberOfBPsInFromRowStart + row.start;
             if (nearestBP > row.end + 1) {
-                nearestBP = row.end + 1;
+                if (rowNumber === this.props.rowData.length - 1 && callback.chain[0].name == "handleEditorDragged") {
+                    this.props.signals.jumpToRow({ rowToJumpTo: "0" });
+                    nearestBP = 0;
+                } else {
+                    nearestBP = row.end + 1;
+                }
             }
         }
 
