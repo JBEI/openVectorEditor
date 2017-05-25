@@ -10,7 +10,6 @@ export default function copySelection({input, state, output}) {
     var selectionEnd = selectionLayer.end;
 
     function copyRangeOfSequenceData(sequenceData, rangeToCopy, allowPartialAnnotationsOnCopy) {
-        debugger
         selectionStart = rangeToCopy.start;
         selectionEnd = rangeToCopy.end;
         var newSequenceData = {};
@@ -78,8 +77,9 @@ export default function copySelection({input, state, output}) {
             sequence: selectionData.sequence,
             url: url,
         };
+
+        state.set('clipboardData', newClipboardData);
     } else {
-        var newClipboardData = null;
+        state.set('clipboardData', {})
     }
-    state.set('clipboardData', newClipboardData);
 }
