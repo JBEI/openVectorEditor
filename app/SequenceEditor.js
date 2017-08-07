@@ -116,7 +116,7 @@ export default class SequenceEditor extends React.Component {
             event.stopPropagation();
             event.preventDefault();
         });
-        combokeys.bindGlobal('command+a', function(event) { // Handle shortcut
+        combokeys.bindGlobal(['command+a', 'ctrl-a'], function(event) { // Handle shortcut
             selectAll();
             event.preventDefault();
             event.stopPropagation();
@@ -125,21 +125,21 @@ export default class SequenceEditor extends React.Component {
             selectInverse();
             event.stopPropagation();
         });
-        combokeys.bindGlobal('command+z', function(event) { // Handle shortcut
+        combokeys.bindGlobal(['command+z', 'ctrl-z'], function(event) { // Handle shortcut
             updateHistory({ idx: -1 });
             event.preventDefault();
             event.stopPropagation();
         });
-        combokeys.bindGlobal('command+y', function(event) { // Handle shortcut
+        combokeys.bindGlobal(['command+y', 'ctrl-y'], function(event) { // Handle shortcut
             updateHistory({ idx: 1 });
             event.preventDefault();
             event.stopPropagation();
         });
-        combokeys.bindGlobal('command+c', function(event) { // Handle shortcut
+        combokeys.bindGlobal(['command+c', 'ctrl-c'], function(event) { // Handle shortcut
             copySelection();
             event.stopPropagation();
         });
-        combokeys.bindGlobal('command+x', function(event) { // Handle shortcut
+        combokeys.bindGlobal(['command+x', 'ctrl-x'], function(event) { // Handle shortcut
             cutSelection();
             event.stopPropagation();
         });
