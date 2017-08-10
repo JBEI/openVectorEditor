@@ -76,6 +76,8 @@ export default class SequenceEditor extends React.Component {
         bindGlobalPlugin(combokeys);
 
         //bind a bunch of keyboard shortcuts we're interested in catching
+        // the 'mod' sugar means both ctrl and cmd and seems to cover windows mac and possibly linux 
+        // meta keys
         combokeys.bind(['a', 'b', 'c', 'd', 'g', 'h', 'k', 'm', 'n', 'r', 's', 't', 'v', 'w', 'y'], function(event) { // type in bases
             sequenceDataInserted({newSequenceData: {sequence: String.fromCharCode(event.charCode)}});
         });
@@ -116,7 +118,7 @@ export default class SequenceEditor extends React.Component {
             event.stopPropagation();
             event.preventDefault();
         });
-        combokeys.bindGlobal(['command+a', 'ctrl-a'], function(event) { // Handle shortcut
+        combokeys.bindGlobal(['command+a', 'ctrl+a'], function(event) { // Handle shortcut
             selectAll();
             event.preventDefault();
             event.stopPropagation();
@@ -125,21 +127,21 @@ export default class SequenceEditor extends React.Component {
             selectInverse();
             event.stopPropagation();
         });
-        combokeys.bindGlobal(['command+z', 'ctrl-z'], function(event) { // Handle shortcut
+        combokeys.bindGlobal(['command+z', 'ctrl+z'], function(event) { // Handle shortcut
             updateHistory({ idx: -1 });
             event.preventDefault();
             event.stopPropagation();
         });
-        combokeys.bindGlobal(['command+y', 'ctrl-y'], function(event) { // Handle shortcut
+        combokeys.bindGlobal(['command+y', 'ctrl+y'], function(event) { // Handle shortcut
             updateHistory({ idx: 1 });
             event.preventDefault();
             event.stopPropagation();
         });
-        combokeys.bindGlobal(['command+c', 'ctrl-c'], function(event) { // Handle shortcut
+        combokeys.bindGlobal(['command+c', 'ctrl+c'], function(event) { // Handle shortcut
             copySelection();
             event.stopPropagation();
         });
-        combokeys.bindGlobal(['command+x', 'ctrl-x'], function(event) { // Handle shortcut
+        combokeys.bindGlobal(['command+x', 'ctrl+x'], function(event) { // Handle shortcut
             cutSelection();
             event.stopPropagation();
         });
