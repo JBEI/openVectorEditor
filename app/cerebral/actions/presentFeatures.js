@@ -1,5 +1,5 @@
 // when safeEdit is on, check selected sequence for features that will be affected, present to user
-// for further input. If no features are found just delete sequence as usual.
+// for further input. If no features are found we'll just delete sequence as usual.
 
 export default function presentFeatures({input, state, output}) {
     var selectionLayer = state.get('selectionLayer');

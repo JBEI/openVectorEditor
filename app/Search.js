@@ -188,7 +188,8 @@ export default class Search extends React.Component {
         return (
             <div
                 ref="searchBar"
-                style={{position:'absolute', zIndex:'10', width:'1000px', left:'20px'}}>
+                style={{position:'absolute', zIndex:'10', width:'1000px', left:'20px'}}
+                >
                 <TextField ref="searchField" hintText="search sequence"
                     style={{margin:'10px 10px 0 0', width:'150px', verticalAlign:'middle'}}
                     inputStyle={{paddingBottom:'5px'}}

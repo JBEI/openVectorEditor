@@ -4,6 +4,7 @@ import ToolBar from './ToolBar';
 import StatusBar from './StatusBar';
 import SideBar from './SideBar';
 import Clipboard from './Clipboard';
+import SafeEditModal from './SafeEditModal';
 import AddBoxIcon from 'material-ui/lib/svg-icons/content/add-box';
 import IconButton from 'material-ui/lib/icon-button';
 import styles from './sequence-editor.css';
@@ -181,6 +182,7 @@ export default class SequenceEditor extends React.Component {
             sequenceData,
             showCircular,
             showRow,
+            showSafeEditModal,
             showSearchBar,
             showSidebar,
             sidebarType
@@ -271,6 +273,8 @@ export default class SequenceEditor extends React.Component {
                         <RowView showRow={showRow} sequenceData={sequenceData} />
                     </div>
                 </div>
+
+                <SafeEditModal />
 
                 <div className={styles.foot}>
                     <StatusBar />
