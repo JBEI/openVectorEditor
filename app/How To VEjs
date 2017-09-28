@@ -1,0 +1,40 @@
+==How To VEjs
+
+=File Structure and Naming
+
+The entry point into the app is 'main > loadFromICE' which makes a request to ICE and grabs the session info. It loads up React and the Cerebral controller. If no ICE entry is found it loads some empty data for the state tree. This file calls 'app > App.js' and 'app > schemaConvert' which will massage the data into the right format before putting it into the state tree. Literally everything else is triggered from 'app > App.js'
+
+The main entry point into the modular editor pieces is 'SequenceEditor.js' which specifies the main DOM structure that contains the rest of the app. Each component piece of the app then has its own file, most of which are contained the folders 'CircularView', 'GelDigest', 'RowView', and 'RestrictionEnzymeManager'. Some of the other components like the sidebar have their own files in 'app'. These files are indicated by a initial capital letter and camelcase names. 
+
+Other files in 'app' include css files - the names of these are lowercase and must match the name of the js files using it. Instead of camelcase they have hyphens. Same for constant files, which go in the 'constants' folder. The folders 'graphic-helpers' and 'shared-utils' contains utility js functions that are used across multiple class files, but not all such utils have been broken out and sorted into these yet. 
+
+The 'cerebral' folder contains all the cerebral action and signal specifications and the state tree. 
+
+Testing doesn't work right now, neither does the dev server I don't think.
+
+=Getting VEjs Up and Running
+
+You will need the 've-integration' branch of ICE and the current 'dev' branch of VEjs from their respective github repos in JBEI. Follow install instructions for ICE. The install of VEjs won't work as is - replace the node_modules folder with the unzipped zip file in the repo. This is a magically bloated node_modules folder that really needs to be cleaned up, but running 'npm update' or 'npm install' will break VEjs and we don't really know why. 
+
+
+=Developing in VEjs
+
+In your VEjs directory, do 'webpack -p' to compile the bundle.js file. Copy it to '/src/main/webapp/scripts/lib/ve/' in your ICE directory. In the ICE directory, do 'mvn jetty:run' to start ICE.
+
+Open a browser and go to https://localhost:8443 which should be the ICE login screen. You username and password are 'Administrator'. Once logged in you probably won't have any entries - get some genbank files from another registry and create some new entries so you can view them.
+
+To view updates to VE code: do 'webpack -p' in the git directory for VE, then copy the bundle file into ICE. Reloading the page in the browser should show changes.
+
+To view any updates to ICE you'll need to stop the jetty server and restart it. This will require logging in again in the browser. Note that to update an ICE branch you need to make sure the up to date bundle file is copied in and pushed to git.
+
+=Pushing VEjs live
+
+=Interface With ICE
+
+Right now VEjs needs to run embedded in ICE. Someday a standalone version would be nice (this is why the code from 'bio-parsers' is included, this will do the file interpretation that w're using ICE for right now). The ICE repo has two branches, one called 've-integration' and one called 've-embed-only'. These are set up to interface with VEjs. The only real change is to a line in 'directives.js' to a directive called 'iceRemoteFlash'. The name isn't accurate anymore obviously since this isn't flash. The link has been changed here to insert an iframe running 'bundle.js' instead of a flash object. The 'bundle.js' file has also been inserted into 'src > main > webapp > scripts > lib > ve' instead of the flash code. In the 've-embed-only' branch this is the only change, so the read-only VectorViewer is accessible in each ICE entry but clicking "view in VectorEditor" still brings up the broken Flash version. In 've-integration' that link has been redirected to a page running 'bundle.js'. 
+
+One of the goals with VEjs was to run everything from a single codebase (in 'bundle.js') so there are points in the code that check whether we are in read-only or editable version, and whether we are running fullpage or embedded. This is checked in 'schemaConvert.js'. The embedded url will have the string "embedded=true" in the search query. The readOnly var will check the 'canEdit' variable which is coming in with the ICE entry information. 
+
+=Security
+
+VE doesn't do any checks of logins or permissions, we're relying on ICE to do that for us. Because we're receiving and storing the session id in plaintext in the cookie and url it could maybe be vulnerable to session hyjack but I haven't tested this. VE itself doesn't contain any sensitive information and is just used to access databases.

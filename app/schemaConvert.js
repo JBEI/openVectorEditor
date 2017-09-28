@@ -13,7 +13,8 @@ module.exports = {
                     name: contents.name,
                     _id: contents.identifier,
                     sequence: contents.sequence,
-                    circular: contents.isCircular
+                    circular: contents.isCircular,
+                    uri: contents.uri
                 },
                 embedded: isEmbedded,
                 readOnly: !contents.canEdit || isEmbedded, // only editable in full version with permission

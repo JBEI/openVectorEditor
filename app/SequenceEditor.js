@@ -185,6 +185,8 @@ export default class SequenceEditor extends React.Component {
             sidebarType
         } = this.props;
 
+        console.log(sequenceData.features)
+
         var table;
         var sidebarStyle = {};
         // we need this position relative to place the controller bar in the sidebar
